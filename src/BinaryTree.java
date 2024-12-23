@@ -23,49 +23,41 @@ public class BinaryTree {
             return;
         }
 
-        // صف برای ذخیره گره‌ها و مدیریت سطح‌ها
         Queue<TreeNode> queue = new LinkedList<>();
         queue.add(root);
 
-        // محاسبه تعداد سطح‌های درخت
         int maxLevel = getMaxLevel(root);
 
-        // حلقه برای چاپ هر سطح درخت
         for (int level = 0; level < maxLevel; level++) {
             int spaces = (int) Math.pow(2, maxLevel - level - 1) - 1; // محاسبه فضاهای لازم برای هر سطح
             int nodeCount = (int) Math.pow(2, level); // تعداد گره‌ها در هر سطح
 
-            // چاپ فاصله‌ها قبل از گره‌ها
             printSpaces(spaces);
 
-            // حلقه برای چاپ گره‌ها در سطح جاری
             for (int i = 0; i < nodeCount; i++) {
-                TreeNode node = queue.poll();  // دریافت گره از صف
+                TreeNode node = queue.poll();
 
                 if (node != null) {
                     System.out.print(node.value);
-                    queue.add(node.left);  // اضافه کردن فرزند چپ به صف
-                    queue.add(node.right); // اضافه کردن فرزند راست به صف
+                    queue.add(node.left);
+                    queue.add(node.right);
                 } else {
-                    System.out.print(" "); // چاپ فضای خالی برای گره‌های null
-                    queue.add(null);  // اضافه کردن گره null به صف
+                    System.out.print(" ");
+                    queue.add(null);
                     queue.add(null);
                 }
 
-                // چاپ فاصله‌ها بعد از هر گره
                 printSpaces(spaces * 2 + 1);
             }
             System.out.println();
         }
     }
 
-    // تابع برای محاسبه تعداد سطوح درخت
     private static int getMaxLevel(TreeNode node) {
         if (node == null) return 0;
         return 1 + Math.max(getMaxLevel(node.left), getMaxLevel(node.right));
     }
 
-    // تابع برای چاپ فضای خالی
     private static void printSpaces(int count) {
         for (int i = 0; i < count; i++) {
             System.out.print(" ");
@@ -119,10 +111,10 @@ public class BinaryTree {
         while (true) {
             System.out.print(prompt);
             try {
-                return scanner.nextInt(); // تلاش برای دریافت عدد صحیح
+                return scanner.nextInt();
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter an integer value or -1 for null.");
-                scanner.next(); // پاک کردن ورودی نامعتبر
+                scanner.next();
             }
         }
     }
