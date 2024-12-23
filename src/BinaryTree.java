@@ -29,8 +29,8 @@ public class BinaryTree {
         int maxLevel = getMaxLevel(root);
 
         for (int level = 0; level < maxLevel; level++) {
-            int spaces = (int) Math.pow(2, maxLevel - level - 1) - 1; // محاسبه فضاهای لازم برای هر سطح
-            int nodeCount = (int) Math.pow(2, level); // تعداد گره‌ها در هر سطح
+            int spaces = (int) Math.pow(2, maxLevel - level - 1) - 1;
+            int nodeCount = (int) Math.pow(2, level);
 
             printSpaces(spaces);
 
