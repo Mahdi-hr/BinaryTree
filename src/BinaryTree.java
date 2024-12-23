@@ -18,63 +18,60 @@ public class BinaryTree {
         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     }
     public static void printTreeGraphically(TreeNode root) {
-
         if (root == null) {
             System.out.println("Tree is empty.");
             return;
         }
 
-        int maxLevel = getMaxLevel(root); // حداکثر عمق درخت
-        List<TreeNode> currentLevel = new ArrayList<>();
-        currentLevel.add(root);
+        // صف برای ذخیره گره‌ها و مدیریت سطح‌ها
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
 
+        // محاسبه تعداد سطح‌های درخت
+        int maxLevel = getMaxLevel(root);
+
+        // حلقه برای چاپ هر سطح درخت
         for (int level = 0; level < maxLevel; level++) {
-            int spaces = (int) Math.pow(2, maxLevel - level - 1); // فاصله اولیه
-            int betweenSpaces = (int) Math.pow(2, maxLevel - level) - 1; // فاصله بین گره‌ها
+            int spaces = (int) Math.pow(2, maxLevel - level - 1) - 1; // محاسبه فضاهای لازم برای هر سطح
+            int nodeCount = (int) Math.pow(2, level); // تعداد گره‌ها در هر سطح
 
-            // چاپ فاصله اولیه
+            // چاپ فاصله‌ها قبل از گره‌ها
             printSpaces(spaces);
 
-            // چاپ گره‌های سطح فعلی
-            List<TreeNode> nextLevel = new ArrayList<>();
-            for (TreeNode node : currentLevel) {
+            // حلقه برای چاپ گره‌ها در سطح جاری
+            for (int i = 0; i < nodeCount; i++) {
+                TreeNode node = queue.poll();  // دریافت گره از صف
+
                 if (node != null) {
-                    System.out.print(node.value); // چاپ مقدار گره
-                    nextLevel.add(node.left);
-                    nextLevel.add(node.right);
+                    System.out.print(node.value);
+                    queue.add(node.left);  // اضافه کردن فرزند چپ به صف
+                    queue.add(node.right); // اضافه کردن فرزند راست به صف
                 } else {
-                    // چاپ فاصله برای گره‌های null
-                    System.out.print(" ");
-                    nextLevel.add(null);
-                    nextLevel.add(null);
+                    System.out.print(" "); // چاپ فضای خالی برای گره‌های null
+                    queue.add(null);  // اضافه کردن گره null به صف
+                    queue.add(null);
                 }
 
-                // فاصله بین گره‌ها (برای گره‌های غیرآخر)
-                if (!node.equals(currentLevel.get(currentLevel.size() - 1))) {
-                    printSpaces(betweenSpaces);
-                }
+                // چاپ فاصله‌ها بعد از هر گره
+                printSpaces(spaces * 2 + 1);
             }
-
-            System.out.println(); // پایان سطح فعلی
-            currentLevel = nextLevel; // انتقال به سطح بعدی
+            System.out.println();
         }
     }
 
+    // تابع برای محاسبه تعداد سطوح درخت
+    private static int getMaxLevel(TreeNode node) {
+        if (node == null) return 0;
+        return 1 + Math.max(getMaxLevel(node.left), getMaxLevel(node.right));
+    }
+
+    // تابع برای چاپ فضای خالی
     private static void printSpaces(int count) {
         for (int i = 0; i < count; i++) {
             System.out.print(" ");
         }
     }
 
-//    private static void printDashes(int count) {
-//        for (int i = 0; i < count; i++) {
-//            System.out.print("-");
-//        }
-//    }
-    private static int getMaxLevel(TreeNode root) {
-        if (root == null) return 0;
-        return 1 + Math.max(getMaxLevel(root.left), getMaxLevel(root.right));
-    }
 
     public static int countNodesWithXAndDegree2(TreeNode root, int x) {
 
